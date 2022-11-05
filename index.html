@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+        <link rel="icon" type="image/css" sizes="32x32" href="logo.png">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <meta name="author" content="Owen Wang">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Online Calculator to do many of your tasks">
+        <script type = "text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <center id="org">
+            <style>
+                .value-buttons, .oper-buttons, .num-buttons, .func-buttons, #neg-button-div{
+                    background-color: gray;
+                    font-family: monospace;
+                    font-size: 40px;
+                    border-radius: 10px;
+                    width: 80px;
+                    height: 80px;
+                    display: inline-block;
+                    padding-top: 10px;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                }
+
+                .spec-value-buttons{
+                    background-color: gray;
+                    font-family: monospace;
+                    font-size: 20px;
+                    border-radius: 10px;
+                    width: 80px;
+                    height: 80px;
+                    display: inline-block;
+                    padding-top: 10px;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                }
+
+                #solve-button-div{
+                    background-color: gray;
+                    font-family: monospace;
+                    font-size: 40px;
+                    border-radius: 10px;
+                    width: 520px;
+                    height: 80px;
+                    display: inline-block;
+                    padding-top: 10px;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                }
+
+                .spec-value-buttons:hover, .value-buttons:hover, .oper-buttons:hover, .num-buttons:hover, .spec-buttons:hover, .func-buttons:hover, #solve-button-div:hover, #neg-button-div:hover{
+                    background-color: rgb(44, 44, 44);
+                    color: white;
+                }
+       
+                #display-div{
+                    background-color: rgb(128, 128, 128);
+                    width: 1200px;
+                    height: 60px;
+                    border-top-left-radius: 15px;
+                    border-top-right-radius: 15px;
+                    margin-top: 50px;
+                    font-size: 30px;
+                }
+
+                #answer-div{
+                    background-color: rgb(128, 128, 128);
+                    width: 1200px;
+                    height: 60px;
+                    border-bottom-left-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                    margin-bottom: 50px;
+                    font-size: 30px;
+                }
+
+                body{
+                    background-color: rgb(177, 177, 177);
+                    font-family: monospace;
+                    cursor:auto;
+                }
+
+                #sectone{
+                    z-index:9999;
+                }
+            </style>
+            <div id="calcdiv">
+                <span id="display-full-org">
+                    <span id="display-org">
+                        <div id="display-div" class="display"></div>
+                    </span>
+                    <span id="answer-org-span">
+                        <div id="answer-div" class="display"></div>
+                    </span>
+                </span>
+                <span id="section-one">
+                    <span id="function-a">
+                        <span id="sorter-span-func-a">
+                            <div id="all-clear" class="func-buttons" onclick="allClear('')">AC</div>
+                            <div id="clear" class="func-buttons" onclick="clearCurrent()">C</div>
+                            <div id="memplus" class="func-buttons" onclick="giveMemory()">M-</div>
+                            <div id="memsubs" class="func-buttons" onclick="takeMemory()">M+</div>
+                            <div id="neg-button-div" onclick="num('-')">(-)</div>
+                            <div id="e-button-div" class="value-buttons" onclick="eValue()">e</div>
+                        </span>
+                    </span>
+                    <br>
+                    <span id="span-a">
+                        <span id="sorter-span-num-b">
+                            <div id="one-button-div" class="num-buttons" onclick="num(1)">1</div>
+                            <div id="two-button-div" class="num-buttons" onclick="num(2)">2</div>
+                            <div id="three-button-div" class="num-buttons" onclick="num(3)">3</div>
+                            <div id="four-button-div" class="num-buttons" onclick="num(4)">4</div>
+                            <div id="five-button-div" class="num-buttons" onclick="num(5)">5</div>
+                            <div id="pi-button-div" class="value-buttons" onclick="piValue()">Pi</div>
+                        </span>
+                    </span>
+                    <br>
+                    <span id="span-b">
+                        <span id="sorter-span-num-c">
+                            <div id="six-button-div"  class="num-buttons" onclick="num(6)">6</div>
+                            <div id="seven-button-div"  class="num-buttons" onclick="num(7)">7</div>
+                            <div id="eight-button-div" class="num-buttons" onclick="num(8)">8</div>
+                            <div id="nine-button-div" class="num-buttons" onclick="num(9)">9</div>
+                            <div id="zero-button-div" class="num-buttons" onclick="num(0)">0</div>
+                            <div id="gr-button-div" class="spec-value-buttons" onclick="grValue()">Golden Ratio</div>
+                        </span>
+                    </span>
+                    <br>
+                    <span id="span-c">
+                        <span id="sorter-span-oper-d">
+                            <div id="dot-button-div" class="num-buttons" onclick="num('.')">.</div>
+                            <div id="plus-button-div" class="oper-buttons" onclick="oper('+')">+</div>
+                            <div id="subs-button-div" class="oper-buttons" onclick="oper('-')">-</div>
+                            <div id="tims-button-div" class="oper-buttons" onclick="oper('×')">×</div>
+                            <div id="divz-button-div" class="oper-buttons" onclick="oper('÷')">÷</div>
+                            <div id="powah-button-div" class="oper-buttons" onclick="oper('^')">^</div>
+                        </span>
+                    </span>
+                    <br>
+                    <span id="span-d">
+                        <span id="sorter-span-oper-e">
+                            <span id="sorter-solve-xx">
+                                <div id="solve-button-div" onclick="solve()">=</div>
+                            </span>
+                        </span>
+                    </span>
+                <br>
+            </div>
+        </center>
+    </body>
+    <script src="calc.js"></script>
+</html>
